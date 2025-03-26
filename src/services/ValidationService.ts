@@ -154,9 +154,12 @@ export class ValidationService {
 
     return errors;
   }
- Validate the entire vendor form
-   */
-  static validateForm(data: VendorData): ValidationErrors {
+
+
+/**
+* Validate the entire vendor form
+*/
+static validateForm(data: VendorData): ValidationErrors {
     return {
       generalDetails: this.validateGeneralDetails(data.generalDetails),
       tradingTerms: this.validateTradingTerms(data.tradingTerms, data.generalDetails.vendorType),
@@ -233,5 +236,4 @@ export class ValidationService {
     return errors;
   }
 
-  /**
-   *
+}
