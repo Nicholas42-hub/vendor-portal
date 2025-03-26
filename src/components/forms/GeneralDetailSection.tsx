@@ -11,7 +11,7 @@ import { FormField } from "../ui/FormField";
 import { TextInput } from "../ui/TextInput";
 import { Dropdown } from "../ui/Dropdown";
 import { Checkbox } from "../ui/Checkbox";
-
+import { SectionContainer, SectionTitle } from "../ui/FormLayout";
 // Define Props
 interface GeneralDetailsSectionProps {
   data: VendorData["generalDetails"];
@@ -22,24 +22,6 @@ interface GeneralDetailsSectionProps {
   onBlur: (field: string) => void;
   parentVendors?: Array<{ id: string; name: string; email: string }>;
 }
-
-// Styled Container
-const SectionContainer = styled("div")({
-  background: "#f7f7f7",
-  padding: "20px",
-  margin: "10px 0",
-  borderRadius: "8px",
-  boxShadow: "0 0 15px rgba(0, 0, 0, 0.1)",
-  width: "100%",
-});
-
-const SectionTitle = styled("h2")({
-  fontSize: "1.2em",
-  color: "rgb(31, 31, 35)",
-  fontWeight: 600,
-  marginBottom: "10px",
-  marginTop: "10px",
-});
 
 const FormLegend = styled("legend")({
   fontFamily:

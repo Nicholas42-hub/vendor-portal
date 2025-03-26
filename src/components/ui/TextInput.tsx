@@ -1,6 +1,6 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
-
+import { StyledTextInput } from "./InputStyles";
 interface TextInputProps {
   id: string;
   name: string;
