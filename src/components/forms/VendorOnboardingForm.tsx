@@ -15,6 +15,7 @@ import { useForm } from "../../hooks/useForm";
 import { ValidationService } from "../../services/ValidationService";
 import { FabricService } from "../../services/FabricService";
 import { Popup } from "../ui/Popup";
+import { SubmitButton } from "../ui/SubmitButton";
 
 // Create services
 const validationService = new ValidationService();
@@ -30,31 +31,9 @@ const FormContainer = styled("div")({
     '-apple-system, "system-ui", "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
 });
 
-const SubmitButton = styled("button")(({ theme }) => ({
-  backgroundColor: "#4CAF50",
-  color: "white",
-  border: "none",
-  padding: "15px",
-  cursor: "pointer",
-  fontSize: "14px",
-  borderRadius: "4px",
-  fontWeight: "bold",
-  width: "100%",
+const FormSubmitContainer = styled("div")({
   marginTop: "20px",
-  "&:hover": {
-    backgroundColor: "#45a049",
-  },
-  "&:disabled": {
-    backgroundColor: "#cccccc",
-    cursor: "not-allowed",
-  },
-}));
-
-const ChildVendorButton = styled(SubmitButton)({
-  backgroundColor: "#1976D2",
-  "&:hover": {
-    backgroundColor: "#1565C0",
-  },
+  width: "100%",
 });
 
 interface VendorOnboardingFormProps {}
@@ -227,17 +206,29 @@ export const VendorOnboardingForm: React.FC<VendorOnboardingFormProps> = () => {
         />
 
         {/* Submit Buttons */}
-        <div className="submission">
+        <FormSubmitContainer>
           {isChildVendor ? (
-            <ChildVendorButton type="submit" disabled={!isValid || isLoading}>
-              {isLoading ? "Processing..." : "Send to Approval Flow"}
-            </ChildVendorButton>
+            <SubmitButton
+              text="Send to Approval Flow"
+              loadingText="Processing..."
+              isLoading={isLoading}
+              disabled={!isValid}
+              type="submit"
+              variant="approval"
+              fullWidth={true}
+            />
           ) : (
-            <SubmitButton type="submit" disabled={!isValid || isLoading}>
-              {isLoading ? "Processing..." : "Send a vendor portal invite"}
-            </SubmitButton>
+            <SubmitButton
+              text="Send a vendor portal invite"
+              loadingText="Processing..."
+              isLoading={isLoading}
+              disabled={!isValid}
+              type="submit"
+              variant="primary"
+              fullWidth={true}
+            />
           )}
-        </div>
+        </FormSubmitContainer>
       </form>
 
       {/* Confirmation Popup */}
