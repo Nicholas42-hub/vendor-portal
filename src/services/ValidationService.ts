@@ -160,14 +160,13 @@ export class ValidationService {
 * Validate the entire vendor form
 */
 static validateForm(data: VendorData): ValidationErrors {
-    return {
-      generalDetails: this.validateGeneralDetails(data.generalDetails),
-      tradingTerms: this.validateTradingTerms(data.tradingTerms, data.generalDetails.vendorType),
-      supplyTerms: this.validateSupplyTerms(data.supplyTerms),
-      financialTerms: this.validateFinancialTerms(data.financialTerms, data.generalDetails.vendorType),
-    };
-  }
-
+  return {
+    generalDetails: ValidationService.validateGeneralDetails(data.generalDetails),
+    tradingTerms: ValidationService.validateTradingTerms(data.tradingTerms, data.generalDetails.vendorType),
+    supplyTerms: ValidationService.validateSupplyTerms(data.supplyTerms),
+    financialTerms: ValidationService.validateFinancialTerms(data.financialTerms, data.generalDetails.vendorType),
+  };
+}
   /**
    * Validate general details section
    */
