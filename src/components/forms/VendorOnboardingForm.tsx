@@ -16,17 +16,20 @@ import { ValidationService } from "../../services/ValidationService";
 import { FabricService } from "../../services/FabricService";
 import { Popup } from "../ui/Popup";
 import { SubmitButton } from "../ui/SubmitButton";
-import {
-  FormContainer,
-  SectionContainer,
-  SectionTitle,
-  FormLegend,
-} from "../ui/FormLayout";
+
 // Create services
 const validationService = new ValidationService();
 const fabricService = new FabricService();
 
 // Define styled components
+const FormContainer = styled("div")({
+  maxWidth: "1100px",
+  width: "100%",
+  margin: "0 auto",
+  padding: "20px",
+  fontFamily:
+    '-apple-system, "system-ui", "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+});
 
 const FormSubmitContainer = styled("div")({
   marginTop: "20px",

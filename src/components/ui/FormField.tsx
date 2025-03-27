@@ -10,30 +10,23 @@ interface FormFieldProps {
   children: ReactNode;
 }
 
-// New form field layout with horizontal alignment
 const StyledFormField = styled("div")(({ theme }) => ({
-  marginBottom: "1.5rem",
-  display: "flex",
-  flexDirection: "row",
-  alignItems: "flex-start",
-  gap: "20px",
-  width: "100%",
+  marginBottom: "1rem",
 }));
 
-// Label now takes up fixed width on the left
 const StyledLabel = styled("label")(({ theme }) => ({
   boxSizing: "border-box",
   color: "rgb(31, 31, 35)",
   cursor: "default",
+  display: "block",
   fontFamily:
     '-apple-system, "system-ui", "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
-  fontSize: "14px",
+  fontSize: "12px",
   fontWeight: 600,
-  width: "200px",
-  minWidth: "200px", // Fixed width for labels
-  textAlign: "right", // Right-align text for better alignment with inputs
+  height: "20px",
+  letterSpacing: "normal",
   lineHeight: "20px",
-  padding: "10px 0", // Add padding to vertically center the label with inputs
+  marginBottom: "4px",
   overflow: "visible",
   textOverflow: "clip",
   wordBreak: "break-word",
@@ -42,12 +35,6 @@ const StyledLabel = styled("label")(({ theme }) => ({
 const RequiredIndicator = styled("span")({
   color: "red",
   marginLeft: "5px",
-});
-
-// Input container expands to fill remaining space
-const InputContainer = styled("div")({
-  flex: "1",
-  maxWidth: "calc(100% - 220px)", // Account for label width + gap
 });
 
 const ErrorMessage = styled("div")({
@@ -70,10 +57,8 @@ export const FormField: React.FC<FormFieldProps> = ({
         {label}
         {required && <RequiredIndicator>*</RequiredIndicator>}
       </StyledLabel>
-      <InputContainer>
-        {children}
-        {touched && error && <ErrorMessage>{error}</ErrorMessage>}
-      </InputContainer>
+      {children}
+      {touched && error && <ErrorMessage>{error}</ErrorMessage>}
     </StyledFormField>
   );
 };
