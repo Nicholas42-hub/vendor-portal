@@ -7,7 +7,7 @@ export const msalConfig = {
     // Replace the placeholder with your tenant subdomain
     authority: 'https://login.microsoftonline.com/e8a8a7fa-7424-4855-aea4-3b639b950c5e',
     // Points to window.location.origin. You must register this URI on Azure Portal/App Registration.
-    redirectUri: '/',
+    redirectUri: 'http://localhost:3000/api/auth/callback/azure-ad',
     // Indicates the page to navigate after logout.
     postLogoutRedirectUri: '/',
     // If "true", will navigate back to the original request location before processing the auth code response

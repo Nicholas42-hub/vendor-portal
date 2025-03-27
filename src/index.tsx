@@ -6,26 +6,51 @@ import {
   PublicClientApplication,
   EventType,
   EventMessage,
+  AuthenticationResult,
 } from "@azure/msal-browser";
+import { MsalProvider } from "@azure/msal-react";
 import { msalConfig } from "./components/auth-config";
 
-// MSAL should be instantiated outside of the component tree to prevent it from being re-instantiated on
-// re-renders.
+// Create the MSAL instance
 const msalInstance = new PublicClientApplication(msalConfig);
 
-// Default to using the first account if no account is active on page load
-if (msalInstance.getAllAccounts().length > 0) {
-  // Account selection logic is app dependent. Adjust as needed for different use cases.
-  msalInstance.setActiveAccount(msalInstance.getActiveAccount(0));
+// Handle redirect promise to avoid page reloads on auth redirects
+msalInstance.handleRedirectPromise().catch((error) => {
+  console.error("Redirect promise error:", error);
+});
+
+// Default to using the first account if no active account is set
+if (
+  !msalInstance.getActiveAccount() &&
+  msalInstance.getAllAccounts().length > 0
+) {
+  msalInstance.setActiveAccount(msalInstance.getAllAccounts()[0]);
 }
 
 // Listen for sign-in event and set active account
 msalInstance.addEventCallback((event: EventMessage) => {
-  if (event.eventType === EventType.LOGIN_SUCCESS && event.payload.account) {
-    const account = event.payload.account;
-    msalInstance.setActiveAccount(account);
+  if (
+    (event.eventType === EventType.LOGIN_SUCCESS ||
+      event.eventType === EventType.ACQUIRE_TOKEN_SUCCESS) &&
+    event.payload
+  ) {
+    const payload = event.payload as AuthenticationResult;
+    if (payload.account) {
+      msalInstance.setActiveAccount(payload.account);
+    }
   }
 });
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App instance={msalInstance} />);
+// Get the root element
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
+
+// Render with MsalProvider wrapping the App
+root.render(
+  <React.StrictMode>
+    <MsalProvider instance={msalInstance}>
+      <App />
+    </MsalProvider>
+  </React.StrictMode>
+);
