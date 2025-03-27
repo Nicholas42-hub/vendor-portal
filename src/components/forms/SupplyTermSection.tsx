@@ -248,3 +248,4 @@ export const SupplyTermsSection: React.FC<SupplyTermsSectionProps> = ({
     </SectionContainer>
   );
 };
+export default SupplyTermsSection;

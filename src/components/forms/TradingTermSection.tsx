@@ -50,12 +50,11 @@ export const TradingTermsSection: React.FC<TradingTermsSectionProps> = ({
   onBlur,
 }) => {
   // Show quotes section only for OVERHEADS or OVERHEADANDSTOCK
-  const showQuotesSection =
-    vendorType === "OVERHEADS" || vendorType === "OVERHEADANDSTOCK";
+  const showQuotesSection = vendorType != "STOCK";
 
   // Show back order only for STOCK or OVERHEADANDSTOCK
   const showBackOrder =
-    vendorType === "STOCK" || vendorType === "OVERHEADANDSTOCK";
+    !vendorType || vendorType === "STOCK" || vendorType === "OVERHEADANDSTOCK";
 
   return (
     <SectionContainer>

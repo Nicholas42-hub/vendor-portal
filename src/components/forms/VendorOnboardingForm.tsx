@@ -23,7 +23,7 @@ const fabricService = new FabricService();
 
 // Define styled components
 const FormContainer = styled("div")({
-  maxWidth: "1100px",
+  maxWidth: "1000px",
   width: "100%",
   margin: "0 auto",
   padding: "20px",

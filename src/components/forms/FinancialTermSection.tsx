@@ -103,9 +103,9 @@ export const FinancialTermsSection: React.FC<FinancialTermsSectionProps> = ({
 
   // Determine which sections to show based on vendor type
   const showRebates =
-    vendorType === "STOCK" || vendorType === "OVERHEADANDSTOCK";
+    !vendorType || vendorType === "STOCK" || vendorType === "OVERHEADANDSTOCK";
   const showOrderExpiryDays =
-    vendorType === "STOCK" || vendorType === "OVERHEADANDSTOCK";
+    !vendorType || vendorType === "STOCK" || vendorType === "OVERHEADANDSTOCK";
 
   return (
     <SectionContainer>
