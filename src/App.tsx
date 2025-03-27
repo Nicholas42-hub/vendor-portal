@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   useMsal,
   AuthenticatedTemplate,
@@ -10,20 +10,21 @@ import "./App.css";
 function App() {
   const { instance, accounts } = useMsal();
 
-  // Trigger the login redirect if no account is signed in
-  useEffect(() => {
-    if (accounts.length === 0) {
-      instance.loginRedirect().catch((error) => {
-        console.error("Login redirect error:", error);
-      });
-    }
-  }, [accounts, instance]);
+  const handleLogin = () => {
+    instance.loginRedirect({
+      scopes: ["openid", "profile", "email", "User.Read"],
+    });
+  };
 
   return (
     <>
       <UnauthenticatedTemplate>
-        <p>Redirecting to login...</p>
+        <div className="login-container">
+          <h2>Welcome to Vendor Portal</h2>
+          <button onClick={handleLogin}>Sign In with Microsoft</button>
+        </div>
       </UnauthenticatedTemplate>
+
       <AuthenticatedTemplate>
         <div className="App">
           <main>

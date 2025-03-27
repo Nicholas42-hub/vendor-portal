@@ -1,24 +1,31 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { PublicClientApplication } from "@azure/msal-browser";
-import { MsalProvider } from "@azure/msal-react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
 import App from "./App";
-import "./index.css"; // optional, if you have global styles
+import {
+  PublicClientApplication,
+  EventType,
+  EventMessage,
+} from "@azure/msal-browser";
+import { msalConfig } from "./components/auth-config";
 
-const msalConfig = {
-  auth: {
-    clientId: process.env.REACT_APP_AZURE_AD_CLIENT_ID!, // Replace with your Azure AD client ID
-    redirectUri: "http://localhost:3000", // Replace with your redirect URI if needed
-  },
-};
-
+// MSAL should be instantiated outside of the component tree to prevent it from being re-instantiated on
+// re-renders.
 const msalInstance = new PublicClientApplication(msalConfig);
 
-ReactDOM.render(
-  <React.StrictMode>
-    <MsalProvider instance={msalInstance}>
-      <App />
-    </MsalProvider>
-  </React.StrictMode>,
-  document.getElementById("root")
-);
+// Default to using the first account if no account is active on page load
+if (msalInstance.getAllAccounts().length > 0) {
+  // Account selection logic is app dependent. Adjust as needed for different use cases.
+  msalInstance.setActiveAccount(msalInstance.getActiveAccount(0));
+}
+
+// Listen for sign-in event and set active account
+msalInstance.addEventCallback((event: EventMessage) => {
+  if (event.eventType === EventType.LOGIN_SUCCESS && event.payload.account) {
+    const account = event.payload.account;
+    msalInstance.setActiveAccount(account);
+  }
+});
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App instance={msalInstance} />);
