@@ -1,12 +1,13 @@
-import { LogLevel, Configuration } from '@azure/msal-browser';
+import { LogLevel, Configuration, PublicClientApplication } from '@azure/msal-browser';
 
-// MSAL configuration for Azure AD (not B2C)
+// MSAL configuration
 export const msalConfig: Configuration = {
   auth: {
-    clientId: '9d17a3ef-09ed-4bfe-bac1-4f37823fbcae',
-    authority: 'https://login.microsoftonline.com/e8a8a7fa-7424-4855-aea4-3b639b950c5e',
-    redirectUri: window.location.origin,
-    postLogoutRedirectUri: window.location.origin,
+    clientId: 'YOUR_CLIENT_ID', // From Azure B2C App registration
+    authority: 'https://YOUR_TENANT_NAME.b2clogin.com/YOUR_TENANT_NAME.onmicrosoft.com/B2C_1_signupsignin',
+    knownAuthorities: ['YOUR_TENANT_NAME.b2clogin.com'],
+    redirectUri: 'http://localhost:3000', // Must match registered redirect URI
+    postLogoutRedirectUri: 'http://localhost:3000', // Where to redirect after logout
   },
   cache: {
     cacheLocation: 'sessionStorage',
@@ -15,12 +16,22 @@ export const msalConfig: Configuration = {
   system: {
     loggerOptions: {
       loggerCallback: (level, message, containsPii) => {
-        if (containsPii) return;
+        if (containsPii) {
+          return;
+        }
         switch (level) {
-          case LogLevel.Error: console.error(message); break;
-          case LogLevel.Info: console.info(message); break;
-          case LogLevel.Verbose: console.debug(message); break;
-          case LogLevel.Warning: console.warn(message); break;
+          case LogLevel.Error:
+            console.error(message);
+            return;
+          case LogLevel.Info:
+            console.info(message);
+            return;
+          case LogLevel.Verbose:
+            console.debug(message);
+            return;
+          case LogLevel.Warning:
+            console.warn(message);
+            return;
         }
       },
       logLevel: LogLevel.Verbose,
@@ -28,7 +39,10 @@ export const msalConfig: Configuration = {
   },
 };
 
-// Change the scopes to match your API registrations
+// API scopes for access token
 export const loginRequest = {
-  scopes: ['User.Read', 'api://YOUR_API_CLIENT_ID/access_as_user'],
+  scopes: ['https://YOUR_TENANT_NAME.onmicrosoft.com/your-api/user.read'], // Replace with your API scopes
 };
+
+// MSAL instance
+export const msalInstance = new PublicClientApplication(msalConfig);
